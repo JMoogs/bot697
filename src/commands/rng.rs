@@ -28,6 +28,8 @@ pub async fn dice(ctx: Context<'_>) -> Result<(), Error> {
 }
 
 /// Helps you make a decision
+///
+/// Answers a yes or no question
 #[allow(unused_variables)]
 #[poise::command(
     slash_command,

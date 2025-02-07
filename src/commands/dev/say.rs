@@ -1,4 +1,3 @@
-// use super::{DEVELOPER_GUILDS, DEVELOPER_USER_IDS};
 use crate::{Context, Error};
 
 #[poise::command(prefix_command, owners_only)]

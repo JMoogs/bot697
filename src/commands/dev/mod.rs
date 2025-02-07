@@ -1,16 +1,26 @@
-use crate::serenity;
+use poise::serenity_prelude;
+
+use crate::{Context, Error};
 
 pub mod register;
 pub mod say;
 
-pub const DEVELOPER_USER_IDS: [serenity::UserId; 2] = [
-    serenity::UserId::new(227446222632255489),
-    serenity::UserId::new(842497297770348615),
-];
-
-pub const DEVELOPER_GUILDS: [serenity::GuildId; 3] = [
-    serenity::GuildId::new(582117329337450499),
-    serenity::GuildId::new(773889931336482836),
-    serenity::GuildId::new(773967376890462238),
-    // serenity::GuildId::new(627827225797853185),
-];
+#[poise::command(prefix_command, owners_only)]
+pub async fn dumpconfig(ctx: Context<'_>) -> Result<(), Error> {
+    let config = ctx.data().config.clone();
+    let config = serde_json::to_string_pretty(&config).unwrap();
+    if config.len() > 1950 {
+        ctx.send(
+            poise::CreateReply::default()
+                .content("The config is too long, sending as attachment")
+                .attachment(serenity_prelude::CreateAttachment::bytes(
+                    config.as_bytes(),
+                    "config.json",
+                )),
+        )
+        .await?;
+    } else {
+        ctx.reply(format!("```json\n{}\n```", config)).await?;
+    }
+    Ok(())
+}

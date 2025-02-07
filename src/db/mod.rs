@@ -1,5 +1,3 @@
-pub mod bdo;
-
 // const DATABASE_URL: &str = "sqlite://BDO_item_data.sqlite";
 use std::sync::OnceLock;
 
